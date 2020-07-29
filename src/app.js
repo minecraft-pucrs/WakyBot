@@ -1,5 +1,19 @@
-    const Discord = require('discord.js');
+const pino = require('pino');
 
-    const bot = new Discord.Client();
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
-    console.log("Hello World!");
+const yml = require('js-yaml');
+
+const fs = require('fs');
+
+const Discord = require('discord.js');
+
+const fetch = new (require('./utils/Fetch').Fetch)(yml, fs, logger);
+
+const discordClient = new (require('./client/DiscordClient').DiscordClient)(Discord, fetch, logger);
+
+logger.info('Hello World!');
+
+logger.debug('This is a DEBUG level logging');
+
+logger.warn('This is a WARN level logging');
