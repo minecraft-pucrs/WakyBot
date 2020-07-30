@@ -4,7 +4,7 @@
   "description": "A discord bot that enables people to start up Azure machines, specifically desgned for MineQuack players to be able to wake up the Minecraft Server from Discord ",
   "main": "src/app.js",
   "scripts": {
-    "test": "jasmine && eslint"
+    "test": "jasmine && eslint ."
   },
   "repository": {
     "type": "git",
