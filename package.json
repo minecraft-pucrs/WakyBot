@@ -17,8 +17,9 @@
   },
   "homepage": "https://github.com/Minequack/WakyBot#readme",
   "dependencies": {
+    "azure": "^2.3.1-preview",
     "discord.js": "^12.2.0",
-    "js-yaml": "^3.14.0",
+    "ms-rest-azure": "^3.0.0",
     "pino": "^6.4.1"
   },
   "devDependencies": {
