@@ -1,7 +1,6 @@
 class DiscordClient {
-  constructor(discord, fetch, logger) {
+  constructor(discord, logger) {
     this.discord = discord;
-    this.fetch = fetch;
     this.logger = logger;
   }
 }
