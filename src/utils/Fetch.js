@@ -1,21 +1,13 @@
-const DISCORD_CREDS_PATH = '../../discordcredentials.yml';
-
-class Fetch {
-  constructor(YML, fs, logger) {
-    this.YML = YML;
-    this.fs = fs;
-    this.logger = logger;
-  }
-
-  getDiscordCreds() {
-    try {
-      const discordCreds = this.YML.safeLoad(this.fs.readFileSync(DISCORD_CREDS_PATH, 'utf8'));
-      return discordCreds;
-    } catch (e) {
-      this.logger.error(e);
-    }
-    return undefined;
-  }
-}
-
-exports.Fetch = Fetch;
+module.exports = {
+  getAzureCreds() {
+    return {
+      subrscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
+      resourceGroupName: process.env.AZURE_RESOURCE_GROUP_NAME,
+      vmName: process.env.AZURE_VM_NAME,
+      clientId: process.env.AZURE_CLIENT_ID,
+      secret: process.env.AZURE_APPLICATION_SECRET,
+      domain: process.env.AZURE_DOMAIN,
+    };
+  },
+  getDiscordBotToken() { return process.env.DISCORD_BOT_TOKEN; },
+};
