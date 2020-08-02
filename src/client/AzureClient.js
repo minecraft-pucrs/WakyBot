@@ -38,7 +38,7 @@ module.exports = {
         azureCreds.vmName,
       );
       const status = instanceView.statuses[1].code;
-      logger.info('Sucessfully executed task: Get VM Status');
+      logger.info('Successfully executed task: Get VM Status');
       logger.debug(`Result of task: Get VM Status = ${status}`);
       return status;
     } catch (err) {
@@ -57,7 +57,7 @@ module.exports = {
         azureCreds.resourceGroupName,
         azureCreds.vmName,
       );
-      logger.info(`Sucessfully executed task: Start the VM - ${azureCreds.vmName}`);
+      logger.info(`Successfully executed task: Start the VM - ${azureCreds.vmName}`);
       return startPromise;
     } catch (err) {
       logger.error(`There was an error while executing task: Start the VM: ${err}`);
