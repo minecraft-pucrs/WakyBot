@@ -4,7 +4,8 @@
   "description": "A discord bot that enables people to start up Azure machines, specifically desgned for MineQuack players to be able to wake up the Minecraft Server from Discord ",
   "main": "src/app.js",
   "scripts": {
-    "test": "jasmine && eslint ."
+    "test": "jasmine && eslint .",
+    "start": "LOG_LEVEL=info node . | ./node_modules/.bin/pino-pretty"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "jasmine": "^3.6.1",
-    "pino-pretty": "^4.1.0"
+    "pino-pretty": "^4.1.0",
+    "proxyquire": "^2.1.3"
   }
 }
