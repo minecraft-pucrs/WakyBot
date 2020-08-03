@@ -53,14 +53,32 @@ module.exports = {
     }
     logger.info(`Start of task: Start the VM - ${azureCreds.vmName}`);
     try {
-      const startPromise = await client.virtualMachines.start(
+      const startResult = await client.virtualMachines.start(
         azureCreds.resourceGroupName,
         azureCreds.vmName,
       );
       logger.info(`Successfully executed task: Start the VM - ${azureCreds.vmName}`);
-      return startPromise;
+      return startResult;
     } catch (err) {
       logger.error(`There was an error while executing task: Start the VM: ${err}`);
+      throw err;
+    }
+  },
+
+  stopVm: async function stopVm() {
+    if (client === null || client === undefined) {
+      await this.getClient();
+    }
+    logger.info(`Start of task: Stop the VM - ${azureCreds.vmName}`);
+    try {
+      const stopResult = await client.virtualMachines.deallocate(
+        azureCreds.resourceGroupName,
+        azureCreds.vmName,
+      );
+      logger.info(`Successfully executed task: Stop the VM - ${azureCreds.vmName}`);
+      return stopResult;
+    } catch (err) {
+      logger.error(`There was an error while executing task: Stop the VM: ${err}`);
       throw err;
     }
   },
