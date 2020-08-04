@@ -9,5 +9,20 @@ module.exports = {
       domain: process.env.AZURE_DOMAIN,
     };
   },
+
   getDiscordBotToken() { return process.env.DISCORD_BOT_TOKEN; },
+
+  getMinecraftServerInfo() {
+    return {
+      host: process.env.MINECRAFT_SERVER_HOST,
+      port: process.env.MINECRAFT_SERVER_PORT || 25565,
+    };
+  },
+
+  getSentinelRules() {
+    return {
+      pingMaxCount: process.env.MINECRAFT_PING_COUNT_MANY_TIMES,
+      pingIntervalInMinutes: process.env.MINECRAFT_PINT_INTERVAL_IN_MINUTES,
+    };
+  },
 };
