@@ -11,11 +11,37 @@
 
 # Overview
 
-A bot that enables people to start up Azure machines, specifically desgned for MineQuack players to be able to wake up the Minecraft Server from Discord
+A nodeJs application that acts as a Discord Bot and a Minecraft server sentinel. It's able to save resources by stopping servers when not in use and it also allows players to start up an offline server directly via Discord.
+
+This application was designed specifically for Minequack, considering it's particular arquitecture (clould computing resources hosted on Azure VMs, etc).
+
+TODO: Add hows
 
 # Installation
 
-TODO
+This bot is written to run on top of node.js. Please see https://nodejs.org/en/download/
+
+Once you have NodeJS installed, running `npm install` from the bot directory should install all required packages!
+
+# Configuration
+
+This bot makes use of Environment variables to set its configuration. Here is a mapping of what each of these variables mean. All the variables marked as requires are *needed* for the application to work:
+
+| Environment Variable Name            | Description                                          |   |   |   |
+|--------------------------------------|------------------------------------------------------|---|---|---|
+|$AZURE_SUBSCRIPTION_ID                |                                                      |   |   |   |
+|$AZURE_RESOURCE_GROUP_NAME            |                                                      |   |   |   |
+|$AZURE_VM_NAME                        |                                                      |   |   |   |
+|$AZURE_CLIENT_ID                      |                                                      |   |   |   |
+|$AZURE_APPLICATION_SECRET             |                                                      |   |   |   |
+|$AZURE_DOMAIN                         |                                                      |   |   |   |
+|$DISCORD_BOT_TOKEN                    |                                                      |   |   |   |
+|$                                     |                                                      |   |   |   |
+|$MINECRAFT_SERVER_HOST                |                                                      |   |   |   |
+|$MINECRAFT_SERVER_PORT                |                                                      |   |   |   |
+|$MINECRAFT_PING_COUNT_HOW_MANY_TIMES  |                                                      |   |   |   |
+|$MINECRAFT_PING_INTERVAL_IN_MINUTES   |                                                      |   |   |   |
+
 # License
 
 Released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
