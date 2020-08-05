@@ -68,7 +68,6 @@ beforeAll(async () => {
 
 describe('getClient', () => {
   it('should call loginWithServicePrincipalSecret to generate credentials', () => {
-
     spyOn(mockedMsRestAzure, 'loginWithServicePrincipalSecret');
 
     AzureClient.getClient();
@@ -81,7 +80,6 @@ describe('getClient', () => {
   });
 
   it('should call createComputeManagementClient to create client', async () => {
-
     spyOn(mockedAzure, 'createComputeManagementClient');
 
     await AzureClient.getClient();
@@ -96,7 +94,6 @@ describe('getClient', () => {
 
 describe('getVmStatus', () => {
   it('should return VM status by calling client.virtualMachines.instanceView(..) with the appropriate params from Fetch.getAzureCreds()', async () => {
-
     spyOn(mockedClient.virtualMachines, 'instanceView').and.returnValue({ statuses: ['irrelevant', { code: expectedVMStatus }] });
 
     const actualVMStatus = await AzureClient.getVmStatus();
@@ -108,7 +105,6 @@ describe('getVmStatus', () => {
   });
 
   it('should catch error if client.virtualMachines.instanceView(..) fails', async () => {
-
     spyOn(mockedClient.virtualMachines, 'instanceView').and.returnValue(Promise.reject(new Error('test error')));
     spyOn(mockedLogger, 'error');
 
@@ -116,7 +112,6 @@ describe('getVmStatus', () => {
     try {
       actualVMStatus = await AzureClient.getVmStatus();
     } catch (err) {
-
       expect(
         mockedClient.virtualMachines.instanceView,
       ).toHaveBeenCalledWith(expectedResourceGroupName, expectedVmName);
@@ -128,7 +123,6 @@ describe('getVmStatus', () => {
 
 describe('stopVM', () => {
   it('should stop the VM by calling client.virtualMachines.deallocate(..) with the appropriate params from Fetch.getAzureCreds()', async () => {
-
     spyOn(mockedClient.virtualMachines, 'deallocate');
 
     await AzureClient.stopVm();
@@ -139,14 +133,12 @@ describe('stopVM', () => {
   });
 
   it('should catch error if client.virtualMachines.deallocate(..) fails', async () => {
-
     spyOn(mockedClient.virtualMachines, 'deallocate').and.returnValue(Promise.reject(new Error('test error')));
     spyOn(mockedLogger, 'error');
 
     try {
       await AzureClient.stopVm();
     } catch (err) {
-
       expect(
         mockedClient.virtualMachines.deallocate,
       ).toHaveBeenCalledWith(expectedResourceGroupName, expectedVmName);
@@ -157,7 +149,6 @@ describe('stopVM', () => {
 
 describe('startVm', () => {
   it('should start the VM by calling client.virtualMachines.start(..) with the appropriate params from Fetch.getAzureCreds()', async () => {
-
     spyOn(mockedClient.virtualMachines, 'start');
 
     await AzureClient.startVm();
@@ -168,14 +159,12 @@ describe('startVm', () => {
   });
 
   it('should catch error if client.virtualMachines.start(..) fails', async () => {
-
     spyOn(mockedClient.virtualMachines, 'start').and.returnValue(Promise.reject(new Error('test error')));
     spyOn(mockedLogger, 'error');
 
     try {
       await AzureClient.startVm();
     } catch (err) {
-
       expect(
         mockedClient.virtualMachines.start,
       ).toHaveBeenCalledWith(expectedResourceGroupName, expectedVmName);
