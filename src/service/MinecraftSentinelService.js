@@ -3,20 +3,21 @@ const cron = require('node-cron');
 const sentinelRules = require('../utils/Fetch').getSentinelRules();
 const minecraftServerInfo = require('../utils/Fetch').getMinecraftServerInfo();
 const mcStatus = require('../adapter/MinecraftServerStatusAdapter');
+const triggers = require('./Triggers');
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
-const noPlayersMaxCount = typeof sentinelRules.pingMaxCount !== 'undefined' ? sentinelRules.pingMaxCount : 5;
-const pingIntervalInMinutes = typeof sentinelRules.pingIntervalInMinutes !== 'undefined' ? sentinelRules.pingIntervalInMinutes : 2;
+const noPlayersMaxCount = typeof sentinelRules.pingMaxCount !== 'undefined' ? sentinelRules.pingMaxCount : 4;
+const pingIntervalInMinutes = typeof sentinelRules.pingIntervalInMinutes !== 'undefined' ? sentinelRules.pingIntervalInMinutes : 5;
 
 let noPlayersCount = 0;
 
 cron.schedule(`* */${pingIntervalInMinutes} * * *`, async () => {
   let serverInfo;
   try {
-    serverInfo = await mcStatus.info(minecraftServerInfo.host, minecraftServerInfo.port);
+    serverInfo = await mcStatus.getServerInfo(minecraftServerInfo.host, minecraftServerInfo.port);
   } catch {
-    serverInfo = undefined;
+    logger.error('Unable to receive server info from MinecraftServerStatus adapter, sentinel routine will not run');
   }
   if (serverInfo !== undefined) {
     /* Routine: Pings Minecraft server for player activity
@@ -27,10 +28,10 @@ cron.schedule(`* */${pingIntervalInMinutes} * * *`, async () => {
          @param noPlayersMaxCount: Defines how many routine checks will be executed until
          a server shut down can be triggered. No players can be online.
          If at least one player is online during one of the routine checks, the counter is
-         reset back to 0. If no value is defined, defaults to 5;
+         reset back to 0. If no value is defined, defaults to 4;
 
          @param pingIntervalInMinutes: Defines the frequency (in minutes) in which the routine
-         checks should be executed. If no value is defined, defaults to 2;
+         checks should be executed. If no value is defined, defaults to 5;
     */
     logger.debug('Starting sentinel routine to detect player activity on Minecraft server...');
     if (!serverInfo.online) {
@@ -45,19 +46,17 @@ cron.schedule(`* */${pingIntervalInMinutes} * * *`, async () => {
       logger.debug('Sentinel: There are players online, inactivity counter will be set back to 0');
       noPlayersCount = 0;
     }
-    if (noPlayersCount === noPlayersMaxCount) {
+    if (noPlayersCount == noPlayersMaxCount) {
       logger.info('Sentinel: Inactivity counter has reached the limit. Triggering auto-shutdown and deallocation of Minecraft server...');
-      // Time to shut down!
       noPlayersCount = 0;
-      // update status from another call later
+      try {
+        await triggers.triggerPowerOff();
+      } catch (err) {
+        logger.error(err);
+      }
     }
   }
+}, {
+  scheduled: true,
+  timezone: 'America/Sao_Paulo',
 });
-
-module.exports = {
-
-  updateServerStatus() {
-    noPlayersCount = 0;
-  },
-
-};

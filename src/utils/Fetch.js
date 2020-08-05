@@ -15,14 +15,14 @@ module.exports = {
   getMinecraftServerInfo() {
     return {
       host: process.env.MINECRAFT_SERVER_HOST,
-      port: process.env.MINECRAFT_SERVER_PORT || 25565,
+      port: process.env.MINECRAFT_SERVER_PORT,
     };
   },
 
   getSentinelRules() {
     return {
       pingMaxCount: process.env.MINECRAFT_PING_COUNT_MANY_TIMES,
-      pingIntervalInMinutes: process.env.MINECRAFT_PINT_INTERVAL_IN_MINUTES,
+      pingIntervalInMinutes: process.env.MINECRAFT_PING_INTERVAL_IN_MINUTES,
     };
   },
 };

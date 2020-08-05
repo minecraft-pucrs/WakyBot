@@ -13,11 +13,10 @@ module.exports = {
       url = `https://mcapi.us/server/status?ip=${ip}&port=${port}`;
       request(url, { json: true }, (err, res, body) => {
         if (err) {
-          logger.err(`Error while fetching Minecraft Server Status ${err}`);
+          logger.error(`Error while fetching Minecraft Server Status ${err}`);
           reject(err);
         }
         logger.info('Successfully fetched Minecraft Server Status');
-        logger.debug(`Returned body: ${body}`);
         resolve(body);
       });
     });
