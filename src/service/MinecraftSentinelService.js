@@ -26,15 +26,13 @@ let noPlayersCount = 0;
     checks should be executed. If no value is defined, defaults to 5;
 */
 async function task() {
-
-  let serverInfo = undefined;
+  let serverInfo;
   try {
     serverInfo = await mcStatus.getServerInfo(minecraftServerInfo.host, minecraftServerInfo.port);
   } catch {
     logger.error('Unable to receive server info from MinecraftServerStatusAdapter, sentinel routine will not run');
   }
   if (serverInfo !== undefined) {
-    
     logger.debug('Starting sentinel routine to detect player activity on Minecraft server...');
     if (serverInfo.numplayers === 0) {
       noPlayersCount += 1;
@@ -53,7 +51,7 @@ async function task() {
       }
     }
   }
- }
+}
 
 const routine = cron.schedule(`* */${pingIntervalInMinutes} * * *`, task, {
   scheduled: true,

@@ -1,32 +1,32 @@
-const proxyquire = require('proxyquire').noCallThru();;
+const proxyquire = require('proxyquire').noCallThru();
 
 describe('Cron Schedule', () => {
   it('should execute routines using default sentinel rules', () => {
     const mockedCron = {
-      schedule: () => {}
+      schedule: () => {},
     };
 
     spyOn(mockedCron, 'schedule').and.callThrough();
 
     const mockedMcStatus = {
-      getServerInfo: () => {}
+      getServerInfo: () => {},
     };
 
     const mockedFetch = {
-      getSentinelRules: () => { return {
+      getSentinelRules: () => ({
         pingMaxCount: 4,
         pingIntervalInMinutes: 5,
-      }},
-      getMinecraftServerInfo: () => {}
+      }),
+      getMinecraftServerInfo: () => {},
     };
 
-   proxyquire('../../src/service/MinecraftSentinelService',
+    proxyquire('../../src/service/MinecraftSentinelService',
       {
         '../../src/adapter/MinecraftServerStatusAdapter': mockedMcStatus,
         '../../src/utils/Fetch': mockedFetch,
         'node-cron': mockedCron,
       });
-    
+
     expect(mockedCron.schedule).toHaveBeenCalledWith('* */5 * * *', jasmine.any(Function), {
       scheduled: true,
       timezone: 'America/Sao_Paulo',
@@ -48,11 +48,11 @@ describe('Cron Schedule', () => {
     };
 
     const mockedFetch = {
-      getSentinelRules: () => { return {
+      getSentinelRules: () => ({
         pingMaxCount: customNoPlayersMaxCount,
         pingIntervalInMinutes: customPingIntervalInMinutes,
-      }},
-      getMinecraftServerInfo: () => {}
+      }),
+      getMinecraftServerInfo: () => {},
     };
 
     spyOn(mockedCron, 'schedule');
@@ -69,5 +69,4 @@ describe('Cron Schedule', () => {
       timezone: 'America/Sao_Paulo',
     });
   });
-
 });
