@@ -34,16 +34,11 @@ cron.schedule(`* */${pingIntervalInMinutes} * * *`, async () => {
          checks should be executed. If no value is defined, defaults to 5;
     */
     logger.debug('Starting sentinel routine to detect player activity on Minecraft server...');
-    if (!serverInfo.online) {
-      noPlayersCount = 0;
-      logger.debug('Sentinel: Server is not online! Routine was aborted!');
-      return;
-    }
-    if (serverInfo.players.now === 0) {
+    if (serverInfo.numplayers === 0) {
       noPlayersCount += 1;
       logger.debug(`Sentinel: There are no players online, inactivity counter has been incremented to ${noPlayersCount}`);
     } else {
-      logger.debug('Sentinel: There are players online, inactivity counter will be set back to 0');
+      logger.debug('Sentinel: There are players online, inactivity counter set to 0');
       noPlayersCount = 0;
     }
     if (noPlayersCount == noPlayersMaxCount) {

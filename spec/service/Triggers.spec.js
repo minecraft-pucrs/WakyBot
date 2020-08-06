@@ -62,7 +62,7 @@ describe('triggerPowerOn', () => {
   it('should throw error if the server is down but the vm is up', async () => {
     spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
     spyOn(mockedAzureClient, 'startVm');
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
 
     const expectedErr = 'Error: Internal Error: The server appears to be down but the virtual machine appears to be running';
     let resultErr;
@@ -78,13 +78,12 @@ describe('triggerPowerOn', () => {
   });
 
   it('should throw error if unable to get a response from AzureClient', async () => {
+    const expectedErr = 'Error: Error while comunicating with AzureClient';
     spyOn(mockedAzureClient, 'getVmStatus').and.returnValue(Promise.resolve('Deallocated'));
     spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
-    spyOn(mockedAzureClient, 'startVm').and.returnValue(undefined);
+    spyOn(mockedAzureClient, 'startVm').and.throwError(expectedErr);
 
-    const expectedErr = 'Error: Error while comunicating with AzureClient';
     let resultErr;
-
     try {
       await Triggers.triggerPowerOn();
     } catch (err) {
@@ -122,12 +121,11 @@ describe('triggerPowerOff', () => {
   });
 
   it('should throw error if unable to get a response from AzureClient', async () => {
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
-    spyOn(mockedAzureClient, 'stopVm').and.returnValue(undefined);
-
     const expectedErr = 'Error: Error while comunicating with AzureClient';
-    let resultErr;
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
+    spyOn(mockedAzureClient, 'stopVm').and.throwError(new Error(expectedErr));
 
+    let resultErr;
     try {
       await Triggers.triggerPowerOff();
     } catch (err) {
@@ -137,15 +135,14 @@ describe('triggerPowerOff', () => {
     expect(resultErr.toString()).toEqual(expectedErr);
   });
 
-  // TO FIX:
-  xit('should execute all the expected steps and return a result if successful', async () => {
+  it('should execute all the expected steps and return a result if successful', async () => {
     const expectedReturnValue = 'ok';
 
     spyOn(mockedAzureClient, 'stopVm').and.returnValue(expectedReturnValue);
-    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue(Promise.resolve('Running'));
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
+    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue(Promise.resolve('Deallocated'));
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
 
-    const result = await Triggers.triggerPowerOn();
+    const result = await Triggers.triggerPowerOff();
 
     expect(result).toEqual(expectedReturnValue);
     expect(mockedAzureClient.stopVm).toHaveBeenCalledTimes(1);

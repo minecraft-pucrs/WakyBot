@@ -29,15 +29,17 @@ module.exports = {
       } catch (err) {
         throw new Error('Unable to get info whether Minecraft Server is already on or not');
       }
-      if (serverInfo.online == 'true') {
+      if (serverInfo !== undefined) {
         throw new Error('The server is already up and running');
       } else {
         throw new Error('Internal Error: The server appears to be down but the virtual machine appears to be running');
       }
     }
 
-    const result = await AzureClient.startVm();
-    if (result === undefined) {
+    let result;
+    try {
+      result = await AzureClient.startVm();
+    } catch {
       throw new Error('Error while comunicating with AzureClient');
     }
     return result;
@@ -50,19 +52,17 @@ module.exports = {
     let serverInfo;
     try {
       serverInfo = await getServerInfo();
-      if (serverInfo === undefined || serverInfo.status == 'error') {
-        throw new Error();
-      }
     } catch (err) {
       throw new Error('Cannot safely proceed with shutdown: Unable to get info whether Minecraft Server is already off or not');
     }
 
-    if (serverInfo.online == 'true') {
-      throw new Error('Minecraft server is still online, even after stop trigger. Cannot force machine to shut down');
+    if (serverInfo != undefined) {
+      throw new Error('Minecraft server is still online even after stop trigger. Cannot force machine to shut down');
     }
-
-    const result = await AzureClient.stopVm();
-    if (result === undefined) {
+    let result;
+    try {
+      result = await AzureClient.stopVm();
+    } catch {
       throw new Error('Error while comunicating with AzureClient');
     }
     return result;
