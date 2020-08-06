@@ -39,7 +39,7 @@ This bot makes use of Environment variables to set its configuration. Here is a 
 |$DISCORD_CONSOLE_CHANNEL_ID           | channelID of channel that responds to MC server console |   YES    |
 |$MINECRAFT_SERVER_HOST                | The Minecraft server IP address                         |   YES    |
 |$MINECRAFT_SERVER_PORT                | The Minecraft server port. Defaults to 25565 if blank   |   NO     |
-|$MINECRAFT_PING_COUNT_HOW_MANY_TIMES  | ![See Minecraft Server Sentinel](#mcSentinel)           |   NO     |
+|$MINECRAFT_PING_COUNT_HOW_MANY_TIMES  | [See Minecraft Server Sentinel](#mcSentinel)           |   NO     |
 |$MINECRAFT_PING_INTERVAL_IN_MINUTES   | [See Minecraft Server Sentinel](#mcSentinel)            |   NO     |
 |$MINECRAFT_SENTINEL_SERVICE_ENABLED   | Flag that defines if Sentinel service will be enabled   |   NO     |
 
