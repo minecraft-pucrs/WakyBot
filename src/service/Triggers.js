@@ -1,6 +1,7 @@
 const Fetch = require('../utils/Fetch');
 const MinecraftServerStatusAdapter = require('../adapter/MinecraftServerStatusAdapter');
 const AzureClient = require('../client/AzureClient');
+const DiscordClient = require('../client/DiscordClient');
 
 function getServerInfo() {
   return MinecraftServerStatusAdapter.getServerInfo(
@@ -46,8 +47,11 @@ module.exports = {
   },
 
   async triggerPowerOff() {
-    // BEFORE Anything SHUTDOWN: TRIGGER DISCORD STOP ON CONSOLE CHANNEL!
-    // IF NO ERROR -> PROCEED EXECUTION
+    try {
+      await DiscordClient.sendMessageToServerConsoleChannel('Stop');
+    } catch (err) {
+      throw new Error('Cannot trigger stop on Discord Server Console Channel');
+    }
 
     let serverInfo;
     try {

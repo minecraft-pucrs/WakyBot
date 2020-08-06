@@ -10,7 +10,12 @@ module.exports = {
     };
   },
 
-  getDiscordBotToken() { return process.env.DISCORD_BOT_TOKEN; },
+  getDiscordBotInfo() {
+    return {
+      token: process.env.DISCORD_BOT_TOKEN,
+      serverConsoleChannelId: process.env.DISCORD_LOG_CHANNEL_ID,
+    };
+  },
 
   getMinecraftServerInfo() {
     return {

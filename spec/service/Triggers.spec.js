@@ -2,6 +2,7 @@ const proxyquire = require('proxyquire').noCallThru();
 
 let mockedMcSSAdapter;
 let mockedAzureClient;
+let mockedDiscordClient;
 
 let Triggers;
 
@@ -16,10 +17,15 @@ beforeEach(() => {
     stopVm: () => {},
   };
 
+  mockedDiscordClient = {
+    sendMessageToServerConsoleChannel: () => {},
+  };
+
   Triggers = proxyquire('../../src/service/Triggers',
     {
       '../client/AzureClient': mockedAzureClient,
       '../adapter/MinecraftServerStatusAdapter': mockedMcSSAdapter,
+      '../client/DiscordClient': mockedDiscordClient,
     });
 });
 
@@ -108,8 +114,19 @@ describe('triggerPowerOn', () => {
 });
 
 describe('triggerPowerOff', () => {
-  it('should throw error if unable to execute stop command via discord', () => {
-    // TODO
+  it('should throw error if unable to execute stop command via discord', async () => {
+    const expectedError = 'Error: Cannot trigger stop on Discord Server Console Channel';
+
+    spyOn(mockedDiscordClient, 'sendMessageToServerConsoleChannel').and.throwError(expectedError);
+
+    let resultError;
+    try {
+      await Triggers.triggerPowerOff();
+    } catch (error) {
+      resultError = error.toString();
+    }
+
+    expect(resultError).toEqual(expectedError);
   });
 
   it('should throw error if unable to get minecraft server info', () => {
