@@ -30,7 +30,7 @@ logger.info(`Discord: ${JSON.stringify(discordVars)}`);
 logger.info(`Minecraft: ${JSON.stringify(minecraftVars)}`);
 
 logger.info('Loading MinecraftSentinelService...');
-require('./service/MinecraftSentinelService');
+require('./service/MinecraftSentinelService').routine.start();
 
 logger.info('Starting discord client...');
 // discord start function here
