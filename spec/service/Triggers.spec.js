@@ -129,12 +129,37 @@ describe('triggerPowerOff', () => {
     expect(resultError).toEqual(expectedError);
   });
 
-  it('should throw error if unable to get minecraft server info', () => {
-    // TODO
+  it('should throw error if unable to get minecraft server info', async () => {
+    const expectedError = 'Error: Cannot safely proceed with shutdown: Unable to get info whether Minecraft Server is already off or not';
+    
+    spyOn(mockedDiscordClient, 'sendMessageToServerConsoleChannel').and.returnValue(undefined);
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.throwError();
+
+    let resultError;
+    try {
+      await Triggers.triggerPowerOff();
+    } catch (error) {
+      resultError = error.toString();
+    }
+
+    expect(resultError).toEqual(expectedError);
   });
 
   it('should throw error if minecraft server is still online after stop call', async () => {
-    // TODO
+    
+    const expectedError = 'Error: Minecraft server is still online even after stop trigger. Cannot force machine to shut down';
+
+    spyOn(mockedDiscordClient, 'sendMessageToServerConsoleChannel').and.returnValue(undefined);
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue("Server Online");
+
+    let resultError;
+    try {
+      await Triggers.triggerPowerOff();
+    } catch (error) {
+      resultError = error.toString();
+    }
+
+    expect(resultError).toEqual(expectedError);
   });
 
   it('should throw error if unable to get a response from AzureClient', async () => {
