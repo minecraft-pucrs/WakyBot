@@ -5,7 +5,6 @@
   "main": "src/WakyBot.js",
   "scripts": {
     "test": "jasmine && eslint .",
-    "prepare": "npm install -g pino-pretty",
     "start": "LOG_LEVEL=info node . | ./node_modules/.bin/pino-pretty"
   },
   "repository": {
