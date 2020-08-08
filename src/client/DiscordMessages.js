@@ -6,8 +6,8 @@ const startMessages = [
   (playerId) => {
     const message = `Oopa! <@${playerId}> wants to play!\n\
 Hang on there while I start the server up..
-    `;
-    return { msg: message, gifUrl: '' };
+`;
+    return { msg: message, gifUrl: 'https://tenor.com/view/hololive-fubuki-loading-gif-18008963' };
   },
   (playerId) => {
     const message = `Howdy, <@${playerId}>!\n\
@@ -68,24 +68,6 @@ Maybe try again and I will see if I can get that fixed!
   },
 ];
 
-const loadingMessages = [
-  () => {
-    const message = 'You want to play some minecaft and the server is down?\nHmm, wait! Let me think...\
-';
-    return { msg: message, gifUrl: 'https://tenor.com/view/zootopia-sloth-oh-right-lag-loading-gif-5016247' };
-  },
-  () => {
-    const message = 'Loading...\
-';
-    return { msg: message, gifUrl: 'https://tenor.com/view/load-loading-loading-screen-computer-error-gif-5435835' };
-  },
-  () => {
-    const message = 'Loading for a sec...\
-';
-    return { msg: message, gifUrl: 'https://tenor.com/view/hololive-fubuki-loading-gif-18008963' };
-  },
-];
-
 module.exports = {
 
   getAFailureMessage: () => failMessages[Math.floor(Math.random() * failMessages.length)],
@@ -93,7 +75,5 @@ module.exports = {
   getAStartMessage: () => startMessages[Math.floor(Math.random() * startMessages.length)],
 
   getAnAlreadyOnMessage: () => alreadyOnMsgs[Math.floor(Math.random() * alreadyOnMsgs.length)],
-
-  getALoadingMessage: () => loadingMessages[Math.floor(Math.random() * loadingMessages.length)],
 
 };
