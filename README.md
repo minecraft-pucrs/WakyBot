@@ -6,7 +6,7 @@
 </h1>
 <br>
 
-[![Azure Pipelines](https://dev.azure.com/sarahlacerda/MineQuack/_apis/build/status/Minequack.WakyBot?branchName=master)](https://dev.azure.com/sarahlacerda/MineQuack/_build/latest?definitionId=1&branchName=master)
+[![Azure Pipelines](https://dev.azure.com/minequack/MineQuack/_apis/build/status/Minequack.WakyBot?branchName=master)](https://dev.azure.com/minequack/MineQuack/_build/latest?definitionId=1&branchName=master)
 ![CI](https://github.com/Minequack/WakyBot/workflows/CI/badge.svg)
 
 # Overview
