@@ -28,7 +28,7 @@ const vars = {
 logger.info('These are the environment variables loaded in:');
 
 Object.keys(vars).forEach((key) => {
-  if (vars[key].includes('UNDEFINED')) {
+  if (vars[key] !== undefined && vars[key].includes('UNDEFINED')) {
     if (vars[key].includes('default')) {
       logger.warn(`$${key} : ${vars[key]}`);
     } else {
