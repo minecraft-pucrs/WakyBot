@@ -1,30 +1,63 @@
-const Discord = require('discord.js');
 const pino = require('pino');
+const Discord = require('discord.js');
 const discordInfo = require('../utils/Fetch.js').getDiscordBotInfo();
-const Trigger = require('../service/Triggers.js');
+const Triggers = require('../service/Triggers.js');
+const discordMessages = require('./DiscordMessages');
 
-const client = new Discord.Client();
+const chatBotClient = new Discord.Client();
+const consoleBotClient = new Discord.Client();
+
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
-client.on('ready', () => {
-  logger.info('WakyBot is ready!');
+chatBotClient.on('ready', () => {
+  logger.info('Discord client for chat is ready to take requests!');
 });
 
-client.on('message', (message) => {
-  if (message.content === 'ServerOn') {
-    logger.info(`${message.author.username} requested to turn the Server on`);
-    message.channel.send('Attempting to turn on Minequack Server');
+chatBotClient.on('ready', () => {
+  logger.info('Discord client for server console is ready to take requests!');
+});
 
-    Trigger.triggerPowerOn.then(() => {
-      message.channel.send('Minequack Server is now on');
-      logger.info();
-    }).catch(() => {
-      message.channel.send('There was a problem, try again');
+chatBotClient.on('message', (message) => {
+  if (message.content.toUpperCase().includes('PLAY') && !message.author.bot) {
+    Triggers.validatePowerOnAttempt().then(() => {
+      logger.info(`${message.author.username} requested to start the Minecraft server`);
+
+      const messageBody = discordMessages.getAStartMessage()(message.author.id);
+
+      message.channel.send(messageBody.msg);
+      message.channel.send(messageBody.gifUrl);
+
+      Triggers.triggerPowerOn()
+        .then()
+        .catch((err) => {
+          logger.error(err);
+
+          const failureMsgBody = discordMessages.getAFailureMessage()();
+
+          message.channel.send(failureMsgBody.msg);
+          message.channel.send(failureMsgBody.gifUrl);
+        });
+    }).catch((err) => {
+      logger.error(err);
+
+      if (err.toString().toLowerCase().includes('the server is already up and running')) {
+        const shouldRandomlyNotifyThatSrvIsOn = Math.random() >= 0.8;
+
+        if (shouldRandomlyNotifyThatSrvIsOn) {
+          const serverAlreadyOnline = discordMessages.getAnAlreadyOnMessage()();
+
+          message.channel.send(serverAlreadyOnline.msg);
+          message.channel.send(serverAlreadyOnline.gifUrl);
+        }
+      } else {
+        const failureMsgBody = discordMessages.getAFailureMessage()();
+
+        message.channel.send(failureMsgBody.msg);
+        message.channel.send(failureMsgBody.gifUrl);
+      }
     });
-  }
-
-  if (message.channel.type === 'dm' && !message.author.bot) {
-    message.channel.send('To turn on the server, type ServerOn');
+  } else if (message.channel.type === 'dm' && !message.author.bot) {
+    message.channel.send('If you want to play Minecraft but the server is off, type "play" and I will take care of that :wink:');
   }
 });
 
@@ -32,29 +65,34 @@ module.exports = {
 
   sendMessageToServerConsoleChannel(message) {
     return new Promise((resolve, reject) => {
-      client.channels.fetch(discordInfo.serverConsoleChannelId, true)
+      consoleBotClient.channels.fetch(discordInfo.serverConsoleChannelId, true)
         .then((channel) => {
-          channel.send(message);
-          resolve();
-        })
-        .catch(() => {
-          logger.error('Could not retrieve log channel ID');
-          reject(new Error('Could not retrieve log channel ID'));
+          channel.send(message).then(() => {
+            resolve();
+          }).catch(
+            (err) => {
+              logger.error(`Could not send message to console channel - ${err}`);
+              reject(new Error(`Could not send message to console channel - ${err}`));
+            },
+          );
+        }).catch((err) => {
+          logger.error(err);
+          reject(err);
         });
     });
   },
 
   startDiscordClient() {
-    let i;
-
-    for (i = 0; i < 5; i += 1) {
-      client.login(discordInfo.token).then(() => true).catch((err) => {
-        logger.error('Error connecting to server. Retrying.');
-        logger.error(err);
+    chatBotClient.login(discordInfo.chatBotToken)
+      .then()
+      .catch((err) => {
+        logger.error(`Error connecting to Discord: ${err}`);
       });
-    }
 
-    logger.error('Failed to authenticate with Discord (max number of tries)');
+    consoleBotClient.login(discordInfo.consoleBotToken)
+      .then()
+      .catch((err) => {
+        logger.error(`Error connecting to Discord: ${err}`);
+      });
   },
-
 };

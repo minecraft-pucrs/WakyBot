@@ -12,8 +12,9 @@ module.exports = {
 
   getDiscordBotInfo() {
     return {
-      token: process.env.DISCORD_BOT_TOKEN,
-      serverConsoleChannelId: process.env.DISCORD_LOG_CHANNEL_ID,
+      chatBotToken: process.env.DISCORD_CHAT_BOT_TOKEN,
+      consoleBotToken: process.env.DISCORD_CONSOLE_BOT_TOKEN,
+      serverConsoleChannelId: process.env.DISCORD_CONSOLE_CHANNEL_ID,
     };
   },
 
@@ -28,6 +29,7 @@ module.exports = {
     return {
       pingMaxCount: process.env.MINECRAFT_PING_COUNT_MANY_TIMES,
       pingIntervalInMinutes: process.env.MINECRAFT_PING_INTERVAL_IN_MINUTES,
+      sentinelEnabled: process.env.MINECRAFT_SENTINEL_SERVICE_ENABLED,
     };
   },
 };
