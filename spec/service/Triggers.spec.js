@@ -54,21 +54,6 @@ describe('triggerPowerOn', () => {
 });
 
 describe('triggerPowerOff', () => {
-  it('should throw error if minecraft server is still online after stop call', async () => {
-    const expectedError = 'Error: Minecraft server is still online even after stop trigger. Cannot force machine to shut down';
-
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue('Server Online');
-
-    let resultError;
-    try {
-      await Triggers.triggerPowerOff();
-    } catch (error) {
-      resultError = error.toString();
-    }
-
-    expect(resultError).toEqual(expectedError);
-  });
-
   it('should throw error if unable to get a response from AzureClient', async () => {
     const expectedErr = 'Error: Error while comunicating with AzureClient';
     spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
@@ -120,7 +105,7 @@ describe('validatePowerOnAttempt', () => {
   it('should throw error if the server is down but the vm is up', async () => {
     spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
     spyOn(mockedAzureClient, 'startVm');
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(null);
 
     const expectedErr = 'Error: Internal Error: The server appears to be down but the virtual machine appears to be running';
     let resultErr;

@@ -14,7 +14,7 @@ module.exports = {
   async validatePowerOnAttempt() {
     const serverInfo = await getServerInfo();
 
-    if (serverInfo !== undefined) {
+    if (serverInfo !== null) {
       throw new Error('The server is already up and running');
     } else {
       let vmRunning;
@@ -46,11 +46,6 @@ module.exports = {
   },
 
   async triggerPowerOff() {
-    const serverInfo = await getServerInfo();
-
-    if (serverInfo != undefined) {
-      throw new Error('Minecraft server is still online even after stop trigger. Cannot force machine to shut down');
-    }
     let result;
     try {
       result = await AzureClient.stopVm();

@@ -33,7 +33,7 @@ async function task() {
   } catch {
     logger.error('Unable to receive server info from MinecraftServerStatusAdapter, sentinel routine will not run');
   }
-  if (serverInfo !== undefined) {
+  if (serverInfo !== null) {
     logger.debug('Starting sentinel routine to detect player activity on Minecraft server...');
     if (serverInfo.numplayers === 0) {
       noPlayersCount += 1;
@@ -48,8 +48,8 @@ async function task() {
       try {
         await discordClient.sendMessageToServerConsoleChannel('stop');
 
-        // Wait 3 minutes so the server has time to properly shutdown and update query
-        setTimeout(await triggers.triggerPowerOff, 300000);
+        // Wait 2 minutes so the server has time to properly shutdown and update query
+        setTimeout(await triggers.triggerPowerOff, 200000);
       } catch (err) {
         logger.error(err);
       }
