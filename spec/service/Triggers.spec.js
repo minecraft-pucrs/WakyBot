@@ -2,7 +2,6 @@ const proxyquire = require('proxyquire').noCallThru();
 
 let mockedMcSSAdapter;
 let mockedAzureClient;
-let mockedDiscordClient;
 
 let Triggers;
 
@@ -17,76 +16,18 @@ beforeEach(() => {
     stopVm: () => {},
   };
 
-  mockedDiscordClient = {
-    sendMessageToServerConsoleChannel: () => {},
-  };
-
   Triggers = proxyquire('../../src/service/Triggers',
     {
       '../client/AzureClient': mockedAzureClient,
       '../adapter/MinecraftServerStatusAdapter': mockedMcSSAdapter,
-      '../client/DiscordClient': mockedDiscordClient,
     });
 });
 
 describe('triggerPowerOn', () => {
-  it('should throw error if is unable to fetch server info', async () => {
-    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
-    spyOn(mockedAzureClient, 'startVm');
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.throwError(new Error());
-
-    const expectedErr = 'Error: Unable to get info whether Minecraft Server is already on or not';
-    let resultErr;
-    try {
-      await Triggers.triggerPowerOn();
-    } catch (err) {
-      resultErr = err;
-    }
-
-    expect(resultErr.toString()).toEqual(expectedErr);
-    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
-  });
-
-  it('should throw error if server is already online', async () => {
-    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
-    spyOn(mockedAzureClient, 'startVm');
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'true' });
-
-    const expectedErr = 'Error: The server is already up and running';
-    let resultErr;
-
-    try {
-      await Triggers.triggerPowerOn();
-    } catch (err) {
-      resultErr = err;
-    }
-
-    expect(resultErr.toString()).toEqual(expectedErr);
-    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
-  });
-
-  it('should throw error if the server is down but the vm is up', async () => {
-    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
-    spyOn(mockedAzureClient, 'startVm');
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
-
-    const expectedErr = 'Error: Internal Error: The server appears to be down but the virtual machine appears to be running';
-    let resultErr;
-
-    try {
-      await Triggers.triggerPowerOn();
-    } catch (err) {
-      resultErr = err;
-    }
-
-    expect(resultErr.toString()).toEqual(expectedErr);
-    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
-  });
-
   it('should throw error if unable to get a response from AzureClient', async () => {
     const expectedErr = 'Error: Error while comunicating with AzureClient';
     spyOn(mockedAzureClient, 'getVmStatus').and.returnValue(Promise.resolve('Deallocated'));
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
     spyOn(mockedAzureClient, 'startVm').and.throwError(expectedErr);
 
     let resultErr;
@@ -103,7 +44,6 @@ describe('triggerPowerOn', () => {
     const expectedReturnValue = 'ok';
 
     spyOn(mockedAzureClient, 'getVmStatus').and.returnValue(Promise.resolve('Deallocated'));
-    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'false' });
     spyOn(mockedAzureClient, 'startVm').and.returnValue(expectedReturnValue);
 
     const result = await Triggers.triggerPowerOn();
@@ -143,6 +83,7 @@ describe('triggerPowerOff', () => {
     }
 
     expect(resultError).toEqual(expectedError);
+
   });
 
   it('should throw error if minecraft server is still online after stop call', async () => {
@@ -187,5 +128,59 @@ describe('triggerPowerOff', () => {
 
     expect(result).toEqual(expectedReturnValue);
     expect(mockedAzureClient.stopVm).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('validatePowerOnAttempt', () => {
+  it('should throw error if server is already online', async () => {
+    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
+    spyOn(mockedAzureClient, 'startVm');
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue({ online: 'true' });
+
+    const expectedErr = 'Error: The server is already up and running';
+    let resultErr;
+
+    try {
+      await Triggers.validatePowerOnAttempt();
+    } catch (err) {
+      resultErr = err;
+    }
+
+    expect(resultErr.toString()).toEqual(expectedErr);
+    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
+  });
+
+  it('should throw error if the server is down but the vm is up', async () => {
+    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
+    spyOn(mockedAzureClient, 'startVm');
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.returnValue(undefined);
+
+    const expectedErr = 'Error: Internal Error: The server appears to be down but the virtual machine appears to be running';
+    let resultErr;
+
+    try {
+      await Triggers.validatePowerOnAttempt();
+    } catch (err) {
+      resultErr = err;
+    }
+
+    expect(resultErr.toString()).toEqual(expectedErr);
+    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
+  });
+
+  it('should throw error if is unable to fetch server info', async () => {
+    spyOn(mockedAzureClient, 'getVmStatus').and.returnValue('Running');
+    spyOn(mockedAzureClient, 'startVm');
+    spyOn(mockedMcSSAdapter, 'getServerInfo').and.throwError(new Error());
+
+    let resultErr;
+    try {
+      await Triggers.validatePowerOnAttempt();
+    } catch (err) {
+      resultErr = err;
+    }
+
+    expect(resultErr).toBeDefined();
+    expect(mockedAzureClient.startVm).toHaveBeenCalledTimes(0);
   });
 });
