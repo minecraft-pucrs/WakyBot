@@ -9,9 +9,9 @@ logger.info('Waky Waky! My name is WakyBot!');
 logger.info('I am starting things up, one second...');
 
 const vars = {
-  AZURE_SUBSCRIPTION_ID: typeof Fetch.getAzureCreds().subrscriptionId !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
-  AZURE_RESOURCE_GROUP_NAME: typeof Fetch.getAzureCreds().resourceGroupName !== 'undefined' ? Fetch.getAzureCreds().resourceGroupNam : 'UNDEFINED',
-  AZURE_VM_NAME: typeof Fetch.getAzureCreds().vmName !== 'undefined' ? Fetch.getAzureCreds.vmName : 'UNDEFINED',
+  AZURE_SUBSCRIPTION_ID: typeof Fetch.getAzureCreds().subrscriptionId !== 'undefined' ? 'DEFINED/**Secret**' : undefined,
+  AZURE_RESOURCE_GROUP_NAME: Fetch.getAzureCreds().resourceGroupName,
+  AZURE_VM_NAME: Fetch.getAzureCreds().vmName,
   AZURE_CLIENT_ID: typeof Fetch.getAzureCreds().clientId !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
   AZURE_APPLICATION_SECRET: typeof Fetch.getAzureCreds().secret !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
   AZURE_DOMAIN: typeof Fetch.getAzureCreds().domain !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
