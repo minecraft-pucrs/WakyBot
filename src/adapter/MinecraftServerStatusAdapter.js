@@ -9,13 +9,13 @@ module.exports = {
 
   getServerInfo(ip, port = 25565) {
     logger.debug('Attempting to query minecraft server...');
-    result = null;
     const query = new Query(ip, port, { timeout: 10000 });
 
     query.connect()
       .then(() => {
         query.basic_stat((err, stat) => {
           if (err) {
+            result = null;
             logger.debug(`${err} - Probably because the server is offline`);
           }
           logger.debug('Successfuly queried minecraft server!');
@@ -26,6 +26,7 @@ module.exports = {
         });
       })
       .catch((err) => {
+        result = null;
         logger.debug(`${err} - Probably because the server is offline`);
       });
 
