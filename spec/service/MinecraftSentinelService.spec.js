@@ -27,8 +27,8 @@ describe('Cron Schedule', () => {
         'node-cron': mockedCron,
       });
 
-    expect(mockedCron.schedule).toHaveBeenCalledWith('* */5 * * *', jasmine.any(Function), {
-      scheduled: true,
+    expect(mockedCron.schedule).toHaveBeenCalledWith('*/5 * * * *', jasmine.any(Function), {
+      scheduled: false,
       timezone: 'America/Sao_Paulo',
     });
   });
@@ -64,8 +64,8 @@ describe('Cron Schedule', () => {
         'node-cron': mockedCron,
       });
 
-    expect(mockedCron.schedule).toHaveBeenCalledWith(`* */${customPingIntervalInMinutes} * * *`, jasmine.any(Function), {
-      scheduled: true,
+    expect(mockedCron.schedule).toHaveBeenCalledWith(`*/${customPingIntervalInMinutes} * * * *`, jasmine.any(Function), {
+      scheduled: false,
       timezone: 'America/Sao_Paulo',
     });
   });

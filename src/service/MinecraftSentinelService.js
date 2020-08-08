@@ -3,6 +3,7 @@ const cron = require('node-cron');
 const sentinelRules = require('../utils/Fetch').getSentinelRules();
 const minecraftServerInfo = require('../utils/Fetch').getMinecraftServerInfo();
 const mcStatus = require('../adapter/MinecraftServerStatusAdapter');
+const discordClient = require('../client/DiscordClient');
 const triggers = require('./Triggers');
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
@@ -45,16 +46,21 @@ async function task() {
       logger.info('Sentinel: Inactivity counter has reached the limit. Triggering auto-shutdown and deallocation of Minecraft server...');
       noPlayersCount = 0;
       try {
-        await triggers.triggerPowerOff();
+        await discordClient.sendMessageToServerConsoleChannel('stop');
+
+        // Wait 3 minutes so the server has time to properly shutdown and update query
+        setTimeout(await triggers.triggerPowerOff, 300000);
       } catch (err) {
         logger.error(err);
       }
     }
+  } else {
+    noPlayersCount = 0;
   }
 }
 
-const routine = cron.schedule(`* */${pingIntervalInMinutes} * * *`, task, {
-  scheduled: true,
+const routine = cron.schedule(`*/${pingIntervalInMinutes} * * * *`, task, {
+  scheduled: false,
   timezone: 'America/Sao_Paulo',
 });
 
