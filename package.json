@@ -1,12 +1,11 @@
 {
   "name": "wakybot",
   "version": "1.0.0",
-  "description": "A discord bot that enables people to start up Azure machines, specifically desgned for MineQuack players to be able to wake up the Minecraft Server from Discord ",
+  "description": " A nodeJs application that acts as a Discord bot and a Minecraft server sentinel. It's able to save cloud resources by stopping a minecraft server when not in use for long hours (no players playing) and it also allows players to start up an offline server directly via Discord by asking the bot.  ",
   "main": "src/WakyBot.js",
   "scripts": {
     "test": "jasmine && eslint .",
-    "start": "LOG_LEVEL=info node . | /usr/local/lib/node_modules/.bin/pino-pretty",
-    "prepare": "npm install -g pino-pretty"
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -31,7 +30,6 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "jasmine": "^3.6.1",
-    "pino-pretty": "^4.1.0",
     "proxyquire": "^2.1.3"
   }
 }
