@@ -35,11 +35,12 @@ This bot makes use of Environment variables to set its configuration. Here is a 
 |$AZURE_CLIENT_ID                      | Generated when creating a service principal in AD *     |   YES    |
 |$AZURE_APPLICATION_SECRET             | Azure application secret, can also be found in AD *     |   YES    |
 |$AZURE_DOMAIN                         | Azure Active Directory Donain *                         |   YES    |
-|$DISCORD_BOT_TOKEN                    | The auth token to control a Discord Bot                 |   YES    |
+|$DISCORD_CHAT_BOT_TOKEN               | Token for the Discord bot that will listen to players   |   YES    |
+|$DISCORD_CONSOLE_BOT_TOKEN            | Token for the Discord bot that will trigger shut down   |   YES
 |$DISCORD_CONSOLE_CHANNEL_ID           | channelID of channel that responds to MC server console |   YES    |
 |$MINECRAFT_SERVER_HOST                | The Minecraft server IP address                         |   YES    |
 |$MINECRAFT_SERVER_PORT                | The Minecraft server port. Defaults to 25565 if blank   |   NO     |
-|$MINECRAFT_PING_COUNT_HOW_MANY_TIMES  | [See Minecraft Server Sentinel](#mcSentinel)           |   NO     |
+|$MINECRAFT_PING_COUNT_HOW_MANY_TIMES  | [See Minecraft Server Sentinel](#mcSentinel)            |   NO     |
 |$MINECRAFT_PING_INTERVAL_IN_MINUTES   | [See Minecraft Server Sentinel](#mcSentinel)            |   NO     |
 |$MINECRAFT_SENTINEL_SERVICE_ENABLED   | Flag that defines if Sentinel service will be enabled   |   NO     |
 
