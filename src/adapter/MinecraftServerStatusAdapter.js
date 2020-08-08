@@ -8,25 +8,28 @@ let result;
 module.exports = {
 
   getServerInfo(ip, port = 25565) {
+    logger.debug('Attempting to query minecraft server...');
     const query = new Query(ip, port, { timeout: 10000 });
+
     query.connect()
       .then(() => {
-        logger.debug('Attempting to query minecraft server...');
         query.basic_stat((err, stat) => {
           if (err) {
             logger.debug(`${err} - Probably because the server is offline`);
-          } else {
-            logger.debug('Successfuly queried minecraft server!');
-            if (query.outstandingRequests === 0) {
-              query.close();
-            }
-            result = stat;
+            result = undefined;
           }
+          logger.debug('Successfuly queried minecraft server!');
+          if (query.outstandingRequests === 0) {
+            query.close();
+          }
+          result = stat;
         });
       })
       .catch((err) => {
         logger.debug(`${err} - Probably because the server is offline`);
+        result = undefined;
       });
+
     return result;
   },
 
