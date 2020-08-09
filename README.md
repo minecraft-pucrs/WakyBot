@@ -15,7 +15,7 @@ This is a nodeJs application that acts as a Discord bot and a Minecraft server s
 
 This application was designed specifically for Minequack, considering it's particular architecture (cloud computing resources hosted on Azure VMs, etc). However, if you feel that the some specific functionality of this application fits your needs, feel free to copy part of the code for it and use it on your project or even fork the repository to tweak the code as you wish. Or if it's the case that this project satisfies exactly what you're needing (problably not the case), feel free to use the whole application as is :grin:
 
-![Here is a brief overview summary of the overall application architecture](https://github.com/Minequack/WakyBot/raw/master/architecture_summary.pdf)
+[Here is a brief overview summary of the overall application architecture](https://github.com/Minequack/WakyBot/raw/master/architecture_summary.pdf)
 
 # Installation
 
