@@ -11,7 +11,7 @@
 
 # Overview
 
-This is a nodeJs application that acts as a Discord bot and a Minecraft server sentinel. It's able to save cloud resources by stopping a minecraft server when not in use for long hours (no players playing) and it also allows players to start up an offline server directly via Discord by asking the bot.
+This is a nodeJs application that acts as a Discord bot and a Minecraft server sentinel. It's able to save cloud resources by stopping a Minecraft server when not in use for long hours (no players playing) and it also allows players to start up an offline server directly via Discord by asking the bot.
 
 This application was designed specifically for Minequack, considering it's particular architecture (cloud computing resources hosted on Azure VMs, etc). However, if you feel that the some specific functionality of this application fits your needs, feel free to copy part of the code for it and use it on your project or even fork the repository to tweak the code as you wish. Or if it's the case that this project satisfies exactly what you're needing (problably not the case), feel free to use the whole application as is :grin:
 
@@ -19,13 +19,13 @@ This application was designed specifically for Minequack, considering it's parti
 
 # Installation
 
-This bot is written to run on top of node.js. Please see https://nodejs.org/en/download/
+This application is written to run on top of node.js. Please see https://nodejs.org/en/download/
 
 Once you have NodeJS installed, running `npm install` from the bot directory should install all required packages!
 
 # Configuration
 
-This bot makes use of Environment variables to set its configuration. Here is a mapping of what each of these variables mean. All the variables marked as required are *needed* for the application to work:
+This aplication makes use of Environment variables to set its configuration. Here is a mapping of what each of these variables mean. All the variables marked as required are *needed* for the application to work:
 
 | Environment Variable Name            | Description                                             | Required |
 |--------------------------------------|---------------------------------------------------------|----------|
@@ -47,10 +47,10 @@ This bot makes use of Environment variables to set its configuration. Here is a 
 
 ### <a name="mcSentinel"></a>Minecraft Sentinel
 
-One of the functionalities of this application is called Minecraft Sentinel. Its purpose is to be able to identify when the minecraft server is idle for long periods of times (no players are playing for long hours) and prevent waste of cloud resources by shuting down the minecraft server. If someone wants to play after the server goes offline, they can ask this application via the Discord bot client to start the server back again.
+One of the functionalities of this application is called Minecraft Sentinel. Its purpose is to be able to identify when the Minecraft server is idle for long periods of times (no players are playing for long hours) and prevent waste of cloud resources by shuting down the Minecraft server. If someone wants to play after the server goes offline, they can ask this application via the Discord bot client to start the server back again.
 
-The way the Minecraft Sentinel works is by executing a cron job evey now and then to ping the server and query how many players are online at that time. If the server is up and no players are playing, a counter is incremented, if at least one player is playing during one of the queries, this counter gets reset back to 0.
-If the counter reaches a certain limit, a server shutdown will be trigger.
+The way the Minecraft Sentinel works is by executing a cron job every now and then to ping the server and query how many players are online at that time. If the server is up and no players are playing, a counter is incremented, if at least one player is playing during one of the queries, this counter gets reset back to 0.
+If the counter reaches a certain limit, a server shutdown will be triggered.
 
 The limit for the counter and the frequency in which the cron job pings the server is customizeable via 2 environment variables, and if no value is specified and the Minecraft Sentinel is enabled, a default value will be used to each of them:
 
