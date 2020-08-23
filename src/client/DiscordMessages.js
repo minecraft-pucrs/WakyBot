@@ -49,6 +49,34 @@ I am starting everything...
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/minecraft-ghost-happy-rainbow-gif-14226488' };
   },
+
+  (playerId) => {
+    const message = `Thumbs up to <@${playerId}> who wants to play some minecraft!\n\
+I am up the server, hang on just a sec...
+`;
+    return { msg: message, gifUrl: 'https://tenor.com/view/sponge-bob-thumbs-up-ok-smile-gif-12038157' };
+  },
+
+  (playerId) => {
+    const message = `Ok! <@${playerId}> wants to play!\n\
+I will start the server up, I will tell you when it's ready to play in just a sec...
+`;
+    return { msg: message, gifUrl: 'https://tenor.com/view/ok-okay-gif-5307535' };
+  },
+
+  (playerId) => {
+    const message = `Congratz!! <@${playerId}> wants to play!!!\n\
+The server is starting up! I will tell you when it's ready to play in just a sec...
+`;
+    return { msg: message, gifUrl: 'https://tenor.com/view/grilla-yes-hell-thumbs-up-grills-gif-10889686' };
+  },
+
+  (playerId) => {
+    const message = `Increadible!! **FABULOSO!!** <@${playerId}> wants to play some minecraft!!!\n\
+The server is starting up! I will tell you when it's ready to play in just a sec...
+`;
+    return { msg: message, gifUrl: 'https://tenor.com/view/fabulous-throwing-glitter-awesome-fancy-gif-10927722' };
+  },
 ];
 
 const alreadyOnMsgs = [
