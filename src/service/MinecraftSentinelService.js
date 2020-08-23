@@ -48,8 +48,8 @@ async function task() {
       try {
         await discordClient.sendMessageToServerConsoleChannel('stop');
 
-        // Wait 2 minutes so the server has time to properly shutdown and update query
-        setTimeout(triggers.triggerPowerOff, 200000);
+        // Wait 1 minute so the server has time to properly shutdown
+        setTimeout(triggers.triggerPowerOff, 100000);
       } catch (err) {
         logger.error(`Unable to auto shutdown - ${err}`);
       }
