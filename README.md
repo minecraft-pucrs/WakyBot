@@ -34,9 +34,9 @@ This aplication makes use of Environment variables to set its configuration. Her
 |$AZURE_VM_NAME                        | Name of the VM where the Minecraft server is running *  |   YES    |
 |$AZURE_CLIENT_ID                      | Generated when creating a service principal in AD *     |   YES    |
 |$AZURE_APPLICATION_SECRET             | Azure application secret, can also be found in AD *     |   YES    |
-|$AZURE_DOMAIN                         | Azure Active Directory Donain *                         |   YES    |
+|$AZURE_DOMAIN                         | Azure Active Directory Domain *                         |   YES    |
 |$DISCORD_CHAT_BOT_TOKEN               | Token for the Discord bot that will listen to players   |   YES    |
-|$DISCORD_CONSOLE_BOT_TOKEN            | Token for the Discord bot that will trigger shut down   |   YES
+|$DISCORD_CONSOLE_BOT_TOKEN            | Token for the Discord bot that will trigger shut down   |   YES    |
 |$DISCORD_CONSOLE_CHANNEL_ID           | channelID of channel that responds to MC server console |   YES    |
 |$MINECRAFT_SERVER_HOST                | The Minecraft server IP address                         |   YES    |
 |$MINECRAFT_SERVER_PORT                | The Minecraft server port. Defaults to 25565 if blank   |   NO     |
