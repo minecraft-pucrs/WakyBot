@@ -13,7 +13,7 @@ Hang on there while I start the server up..
     const message = `Howdy, <@${playerId}>!\n\
 I am starting up the server for you
 `;
-    return { msg: message, gifUrl: 'https://media.tenor.co/videos/876012731a32b8d04d28600ac1c37551/mp4' };
+    return { msg: message, gifUrl: 'https://tenor.com/view/minecraft-ghost-happy-rainbow-gif-14226488' };
   },
   (playerId) => {
     const message = `As you wish, <@${playerId}> you asked and I do it!\n\
