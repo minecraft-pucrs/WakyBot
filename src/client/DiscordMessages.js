@@ -72,7 +72,7 @@ The server is starting up! I will tell you when it's ready to play in just a sec
   },
 
   (playerId) => {
-    const message = `Increadible!! **FABULOSO!!** <@${playerId}> wants to play some minecraft!!!\n\
+    const message = `Incredible!! **FABULOSO!!** <@${playerId}> wants to play some minecraft!!!\n\
 The server is starting up! I will tell you when it's ready to play in just a sec...
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/fabulous-throwing-glitter-awesome-fancy-gif-10927722' };
