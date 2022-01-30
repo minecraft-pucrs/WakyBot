@@ -4,8 +4,12 @@ const discordInfo = require('../utils/Fetch.js').getDiscordBotInfo();
 const Triggers = require('../service/Triggers.js');
 const discordMessages = require('./DiscordMessages');
 
-const chatBotClient = new Discord.Client();
-const consoleBotClient = new Discord.Client();
+const chatBotClient = new Discord.Client({
+  intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
+});
+const consoleBotClient = new Discord.Client({
+  intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
+});
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
