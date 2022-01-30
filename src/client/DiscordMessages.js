@@ -89,7 +89,7 @@ const alreadyOnMsgs = [
 
 const failMessages = [
   () => {
-    const message = `I don't know what happened but something went wrong :(\n\
+    const message = `:interrobang: I don't know what happened but something went wrong :(\n\
 Maybe try again and I will see if I can get that fixed!
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/dont-stop-dont-give-up-kid-advice-motivation-gif-4496803' };
