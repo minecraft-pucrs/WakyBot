@@ -24,7 +24,7 @@ chatBotClient.on('ready', () => {
 chatBotClient.on('message', (message) => {
   if (message.channel.type === 'dm' && !message.author.bot) {
     message.channel.send('If you want to play Minecraft but the server is offline, go to the **game-chat** channel and type "Play" and I will take care of that :wink:');
-  } else if (message.content.toUpperCase().includes('PLAY') && !message.author.bot) {
+  } else if (message.content.toUpperCase().includes('PLAY') && message.channel === 'game-chat' && !message.author.bot) {
     Triggers.validatePowerOnAttempt().then(() => {
       logger.info(`${message.author.username} requested to start the Minecraft server`);
 
