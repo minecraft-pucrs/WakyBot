@@ -5,7 +5,7 @@ const minecraftServerHost = require('../utils/Fetch').getMinecraftServerInfo().h
 const startMessages = [
   (playerId) => {
     const message = `Ola, <@${playerId}>!\n\
-Estou iniciando o servidor para voce. Espera so um minutinho que ja te aviso aqui quando estiver tudo pronto para jogar
+Estou iniciando o servidor para ti. Espera só um minutinho que já te aviso aqui quando estiver tudo pronto para jogar
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/minecraft-ghost-happy-rainbow-gif-14226488' };
   },
@@ -13,7 +13,7 @@ Estou iniciando o servidor para voce. Espera so um minutinho que ja te aviso aqu
 
 const alreadyOnMsgs = [
   () => {
-    const message = `*Caso esteja se perguntando se o servidor esta aberto, ele esta :)*\nEntra la no Minecraft com o IP **${minecraftServerHost}** e divirta-se!
+    const message = `*Caso esteja se perguntando se o servidor está aberto, ele está :)*\nEntra lá no Minecraft com o IP **${minecraftServerHost}** e divirta-se!
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/calculating-puzzled-math-confused-confused-look-gif-14677181' };
   },
@@ -21,7 +21,7 @@ const alreadyOnMsgs = [
 
 const failMessages = [
   () => {
-    const message = `:interrobang: Nao sei o que aconteceu mas algo deu errado :(\n\
+    const message = `:interrobang: Não sei o que aconteceu mas algo deu errado :(\n Quer tentar novamente daqui um pouco?\n\
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/dont-stop-dont-give-up-kid-advice-motivation-gif-4496803' };
   },
