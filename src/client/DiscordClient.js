@@ -40,7 +40,6 @@ chatBotClient.on('message', (message) => {
           const failureMsgBody = discordMessages.getAFailureMessage()();
 
           message.channel.send(failureMsgBody.msg);
-          message.channel.send(failureMsgBody.gifUrl);
         });
     }).catch((err) => {
       logger.error(err);
