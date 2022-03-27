@@ -31,7 +31,6 @@ chatBotClient.on('message', (message) => {
       const messageBody = discordMessages.getAStartMessage()(message.author.id);
 
       message.channel.send(messageBody.msg);
-      message.channel.send(messageBody.gifUrl);
 
       Triggers.triggerPowerOn()
         .then()
