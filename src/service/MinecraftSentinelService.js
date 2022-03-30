@@ -1,8 +1,6 @@
 const pino = require('pino');
 const cron = require('node-cron');
 const sentinelRules = require('../utils/Fetch').getSentinelRules();
-const minecraftServerInfo = require('../utils/Fetch').getMinecraftServerInfo();
-const mcStatus = require('../adapter/MinecraftServerStatusAdapter');
 const discordClient = require('../client/DiscordClient');
 const triggers = require('./Triggers');
 
@@ -27,35 +25,27 @@ let noPlayersCount = 0;
     checks should be executed. If no value is defined, defaults to 5;
 */
 async function task() {
-  let serverInfo;
-  try {
-    serverInfo = await mcStatus.getServerInfo(minecraftServerInfo.host, minecraftServerInfo.port);
-  } catch {
-    logger.error('Unable to receive server info from MinecraftServerStatusAdapter, sentinel routine will not run');
-  }
-  if (serverInfo !== null) {
-    logger.debug('Starting sentinel routine to detect player activity on Minecraft server...');
-    if (serverInfo.numplayers === 0) {
+  discordClient.isServerIdle().then((isServerIdle) => {
+    if (isServerIdle) {
       noPlayersCount += 1;
       logger.debug(`Sentinel: There are no players online, inactivity counter has been incremented to ${noPlayersCount}`);
     } else {
-      logger.debug('Sentinel: There are players online, inactivity counter set to 0');
+      logger.debug('Sentinel: There are players online or the server seems offline, inactivity counter set to 0');
       noPlayersCount = 0;
     }
-    if (noPlayersCount == noPlayersMaxCount) {
-      logger.info('Sentinel: Inactivity counter has reached the limit. Triggering auto-shutdown and deallocation of Minecraft server...');
-      noPlayersCount = 0;
-      try {
-        await discordClient.sendMessageToServerConsoleChannel('stop');
+  });
 
-        // Wait 1 minute so the server has time to properly shutdown
-        setTimeout(triggers.triggerPowerOff, 100000);
-      } catch (err) {
-        logger.error(`Unable to auto shutdown - ${err}`);
-      }
-    }
-  } else {
+  if (noPlayersCount == noPlayersMaxCount) {
+    logger.info('Sentinel: Inactivity counter has reached the limit. Triggering auto-shutdown and deallocation of Minecraft server...');
     noPlayersCount = 0;
+    try {
+      await discordClient.sendMessageToServerConsoleChannel('stop');
+
+      // Wait 1 minute so the server has time to properly shutdown
+      setTimeout(triggers.triggerPowerOff, 100000);
+    } catch (err) {
+      logger.error(`Unable to auto shutdown - ${err}`);
+    }
   }
 }
 

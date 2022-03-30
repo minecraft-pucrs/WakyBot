@@ -66,6 +66,31 @@ chatBotClient.on('message', (message) => {
 
 module.exports = {
 
+  isServerIdle() {
+    return new Promise((resolve, reject) => {
+      consoleBotClient.guilds.fetch(discordInfo.serverConsoleChannelId, true)
+        .then((consoleChannel) => {
+          if (consoleChannel.topic.toLowerCase().includes('offline')) {
+            resolve(false);
+          }
+          chatBotClient.guilds.fetch(discordInfo.gameChatChannelId, true)
+            .then((gameChatChannel) => {
+              resolve(gameChatChannel.topic.toLowerCase.includes('0/'));
+            }).catch(
+              (err) => {
+                logger.error(`Could not fetch game chat channel - ${err}`);
+                reject(new Error(`Could not fetch game chat channel - ${err}`));
+              },
+            );
+        }).catch(
+          (err) => {
+            logger.error(`Could not fetch game console channel - ${err}`);
+            reject(new Error(`Could not fetch game console channel - ${err}`));
+          },
+        );
+    });
+  },
+
   sendMessageToServerConsoleChannel(message) {
     return new Promise((resolve, reject) => {
       consoleBotClient.channels.fetch(discordInfo.serverConsoleChannelId, true)

@@ -15,6 +15,7 @@ module.exports = {
       chatBotToken: process.env.DISCORD_CHAT_BOT_TOKEN,
       consoleBotToken: process.env.DISCORD_CONSOLE_BOT_TOKEN,
       serverConsoleChannelId: process.env.DISCORD_CONSOLE_CHANNEL_ID,
+      gameChatChannelId: process.env.DISCORD_CHAT_CHANNEL_ID,
     };
   },
 

@@ -18,6 +18,7 @@ const vars = {
   DISCORD_CHAT_BOT_TOKEN: typeof Fetch.getDiscordBotInfo().chatBotToken !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
   DISCORD_CONSOLE_BOT_TOKEN: typeof Fetch.getDiscordBotInfo().consoleBotToken !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
   DISCORD_CONSOLE_CHANNEL_ID: typeof Fetch.getDiscordBotInfo().serverConsoleChannelId !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
+  DISCORD_CHAT_CHANNEL_ID: typeof Fetch.getDiscordBotInfo().gameChatChannelId !== 'undefined' ? 'DEFINED/**Secret**' : 'UNDEFINED',
   MINECRAFT_SERVER_HOST: typeof Fetch.getMinecraftServerInfo().host !== 'undefined' ? Fetch.getMinecraftServerInfo().host : 'UNDEFINED',
   MINECRAFT_SERVER_PORT: typeof Fetch.getMinecraftServerInfo().port !== 'undefined' ? Fetch.getMinecraftServerInfo().port : 'UNDEFINED, 25565 will be used as default',
   MINECRAFT_PING_COUNT_MANY_TIMES: typeof Fetch.getSentinelRules().pingMaxCount !== 'undefined' ? Fetch.getSentinelRules().pingMaxCount : 'UNDEFINED, default value will be used',
