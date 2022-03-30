@@ -68,12 +68,12 @@ module.exports = {
 
   isServerIdle() {
     return new Promise((resolve, reject) => {
-      consoleBotClient.guilds.fetch(discordInfo.serverConsoleChannelId, true)
+      consoleBotClient.channels.fetch(discordInfo.serverConsoleChannelId, true)
         .then((consoleChannel) => {
           if (consoleChannel.topic.toLowerCase().includes('offline')) {
             resolve(false);
           }
-          chatBotClient.guilds.fetch(discordInfo.gameChatChannelId, true)
+          chatBotClient.channels.fetch(discordInfo.gameChatChannelId, true)
             .then((gameChatChannel) => {
               resolve(gameChatChannel.topic.toLowerCase.includes('0/'));
             }).catch(
