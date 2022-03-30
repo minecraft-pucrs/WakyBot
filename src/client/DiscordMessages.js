@@ -4,7 +4,7 @@ const minecraftServerHost = require('../utils/Fetch').getMinecraftServerInfo().h
 
 const startMessages = [
   (playerId) => {
-    const message = `Ola, <@${playerId}>!\n\
+    const message = `Olá, <@${playerId}>!\n\
 Estou iniciando o servidor para ti. Espera só um minutinho que já te aviso aqui quando estiver tudo pronto para jogar
 `;
     return { msg: message, gifUrl: 'https://tenor.com/view/minecraft-ghost-happy-rainbow-gif-14226488' };
