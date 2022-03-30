@@ -75,7 +75,7 @@ module.exports = {
           }
           chatBotClient.channels.fetch(discordInfo.gameChatChannelId, true)
             .then((gameChatChannel) => {
-              resolve(gameChatChannel.topic.toLowerCase.includes('0/'));
+              resolve(gameChatChannel.topic.toLowerCase().includes('0/'));
             }).catch(
               (err) => {
                 logger.error(`Could not fetch game chat channel - ${err}`);
